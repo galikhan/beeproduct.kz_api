@@ -1,0 +1,45 @@
+plugins {
+    // Apply the java plugin to add support for Java
+    id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'org.postgresql:postgresql:42.2.14.jre7'
+    compile 'com.zaxxer:HikariCP:3.4.5'
+    compile project(':models')
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.11.2'
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.11.2'
+
+    compile 'io.vertx:vertx-core:3.9.2'
+    compile 'io.vertx:vertx-web:3.9.2'
+    compile 'io.vertx:vertx-web-client:3.9.4'
+//    "io.vertx:vertx-auth-common:${version}",
+//    "io.vertx:vertx-config:${version}",
+    compile 'org.apache.logging.log4j:log4j-core:2.11.2'
+    compile 'org.apache.logging.log4j:log4j-api:2.11.2'
+
+    testImplementation 'junit:junit:4.13'
+}
+
+shadowJar {
+//    mainClassName = 'io.vertx.core.Launcher'
+// Define the main class for the application
+    mainClassName = 'kz.beeproduct.App'
+}
+
+def watchForChange = 'src/**/*.java'
+
+// Vert.x will call this task on changes
+def doOnChange = './gradlew web_admin:classes'
+//def conf = 'conf/app.json'
+
+run {
+    args = ['run', "--redeploy=$watchForChange", "--launcher-class=kz.gpark.App", "--on-redeploy=$doOnChange"]
+}
+

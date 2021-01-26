@@ -1,0 +1,66 @@
+plugins {
+    // Apply the java plugin to add support for Java
+    id 'java'
+    id 'application'
+    id 'nu.studer.jooq' version '4.2'
+}
+
+repositories {
+    jcenter()
+}
+
+
+dependencies {
+    compile  'com.zaxxer:HikariCP:3.4.5',
+            "org.jooq:jooq:3.13.4",
+            "org.jooq:jooq-meta:3.13.4",
+            "org.jooq:jooq-codegen:3.13.4"
+
+    testImplementation 'junit:junit:4.13'
+    jooqRuntime 'org.postgresql:postgresql:42.2.14.jre7'
+}
+
+
+jooq {
+    version = '3.13.4'
+    edition = 'OSS'
+    sample(sourceSets.main) {
+
+        jdbc {
+            driver = 'org.postgresql.Driver'
+            url = 'jdbc:postgresql://localhost:5433/beeproduct'
+            user = 'postgres'
+            password = 'postgres'
+            properties {
+//                property {
+//                    key = 'ssl'
+//                    value = 'true'
+//                }
+            }
+        }
+        generator {
+            name = 'org.jooq.codegen.DefaultGenerator'
+            strategy {
+                name = 'org.jooq.codegen.DefaultGeneratorStrategy'
+            }
+            database {
+                name = 'org.jooq.meta.postgres.PostgresDatabase'
+                inputSchema = 'public'
+                includes = '.*' //if tables begin with prefix then change to 'prefix.*'
+
+            }
+            generate {
+                relations = true
+                deprecated = false
+                records = true
+//                immutablePojos = true
+                fluentSetters = true
+                javaTimeTypes = true
+            }
+            target {
+                packageName = 'kz.beeproduct.model'
+                directory = 'src/main/java'
+            }
+        }
+    }
+}
