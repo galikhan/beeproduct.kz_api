@@ -9,6 +9,7 @@ import java.util.List;
 
 import kz.beeproduct.model.tables.Orders;
 import kz.beeproduct.model.tables.Product;
+import kz.beeproduct.model.tables.ProductInOrders;
 import kz.beeproduct.model.tables.Users;
 
 import org.jooq.Catalog;
@@ -23,7 +24,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Public extends SchemaImpl {
 
-    private static final long serialVersionUID = 157443421;
+    private static final long serialVersionUID = 1157119867;
 
     /**
      * The reference instance of <code>public</code>
@@ -39,6 +40,11 @@ public class Public extends SchemaImpl {
      * The table <code>public.product</code>.
      */
     public final Product PRODUCT = Product.PRODUCT;
+
+    /**
+     * The table <code>public.product_in_orders</code>.
+     */
+    public final ProductInOrders PRODUCT_IN_ORDERS = ProductInOrders.PRODUCT_IN_ORDERS;
 
     /**
      * The table <code>public.users</code>.
@@ -69,6 +75,7 @@ public class Public extends SchemaImpl {
         return Arrays.<Table<?>>asList(
             Orders.ORDERS,
             Product.PRODUCT,
+            ProductInOrders.PRODUCT_IN_ORDERS,
             Users.USERS);
     }
 }

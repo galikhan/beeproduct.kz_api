@@ -19,7 +19,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ProductRecord extends UpdatableRecordImpl<ProductRecord> implements Record6<Long, String, String, String, String, Integer> {
 
-    private static final long serialVersionUID = 1171266094;
+    private static final long serialVersionUID = 820766062;
 
     /**
      * Setter for <code>public.product.id_</code>.

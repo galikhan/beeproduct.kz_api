@@ -6,6 +6,7 @@ package kz.beeproduct.model;
 
 import kz.beeproduct.model.tables.Orders;
 import kz.beeproduct.model.tables.Product;
+import kz.beeproduct.model.tables.ProductInOrders;
 import kz.beeproduct.model.tables.Users;
 
 
@@ -24,6 +25,11 @@ public class Tables {
      * The table <code>public.product</code>.
      */
     public static final Product PRODUCT = Product.PRODUCT;
+
+    /**
+     * The table <code>public.product_in_orders</code>.
+     */
+    public static final ProductInOrders PRODUCT_IN_ORDERS = ProductInOrders.PRODUCT_IN_ORDERS;
 
     /**
      * The table <code>public.users</code>.

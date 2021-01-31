@@ -21,7 +21,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class OrdersRecord extends UpdatableRecordImpl<OrdersRecord> implements Record4<Long, String, LocalDateTime, Integer> {
 
-    private static final long serialVersionUID = -707339122;
+    private static final long serialVersionUID = 575736154;
 
     /**
      * Setter for <code>public.orders.id_</code>.

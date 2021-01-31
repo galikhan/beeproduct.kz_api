@@ -15,7 +15,7 @@ import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row7;
+import org.jooq.Row8;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -31,7 +31,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Users extends TableImpl<UsersRecord> {
 
-    private static final long serialVersionUID = -640625920;
+    private static final long serialVersionUID = -1475156179;
 
     /**
      * The reference instance of <code>public.users</code>
@@ -57,16 +57,6 @@ public class Users extends TableImpl<UsersRecord> {
     public final TableField<UsersRecord, String> PASSWORD_ = createField(DSL.name("password_"), org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
-     * The column <code>public.users.phone_</code>.
-     */
-    public final TableField<UsersRecord, String> PHONE_ = createField(DSL.name("phone_"), org.jooq.impl.SQLDataType.VARCHAR(15).nullable(false), this, "");
-
-    /**
-     * The column <code>public.users.address_</code>.
-     */
-    public final TableField<UsersRecord, String> ADDRESS_ = createField(DSL.name("address_"), org.jooq.impl.SQLDataType.CLOB.nullable(false), this, "");
-
-    /**
      * The column <code>public.users.entrance_</code>.
      */
     public final TableField<UsersRecord, Integer> ENTRANCE_ = createField(DSL.name("entrance_"), org.jooq.impl.SQLDataType.INTEGER, this, "");
@@ -80,6 +70,21 @@ public class Users extends TableImpl<UsersRecord> {
      * The column <code>public.users.flat_</code>.
      */
     public final TableField<UsersRecord, Integer> FLAT_ = createField(DSL.name("flat_"), org.jooq.impl.SQLDataType.INTEGER, this, "");
+
+    /**
+     * The column <code>public.users.session_</code>.
+     */
+    public final TableField<UsersRecord, String> SESSION_ = createField(DSL.name("session_"), org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
+
+    /**
+     * The column <code>public.users.address_</code>.
+     */
+    public final TableField<UsersRecord, String> ADDRESS_ = createField(DSL.name("address_"), org.jooq.impl.SQLDataType.CLOB, this, "");
+
+    /**
+     * The column <code>public.users.phone_</code>.
+     */
+    public final TableField<UsersRecord, String> PHONE_ = createField(DSL.name("phone_"), org.jooq.impl.SQLDataType.VARCHAR(15), this, "");
 
     /**
      * Create a <code>public.users</code> table reference
@@ -126,7 +131,7 @@ public class Users extends TableImpl<UsersRecord> {
 
     @Override
     public List<UniqueKey<UsersRecord>> getKeys() {
-        return Arrays.<UniqueKey<UsersRecord>>asList(Keys.USERS_PKEY);
+        return Arrays.<UniqueKey<UsersRecord>>asList(Keys.USERS_PKEY, Keys.USERS_SESSION__KEY);
     }
 
     @Override
@@ -156,11 +161,11 @@ public class Users extends TableImpl<UsersRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row7 type methods
+    // Row8 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row7<String, String, String, String, Integer, Integer, Integer> fieldsRow() {
-        return (Row7) super.fieldsRow();
+    public Row8<String, String, Integer, Integer, Integer, String, String, String> fieldsRow() {
+        return (Row8) super.fieldsRow();
     }
 }

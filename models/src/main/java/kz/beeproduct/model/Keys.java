@@ -6,8 +6,10 @@ package kz.beeproduct.model;
 
 import kz.beeproduct.model.tables.Orders;
 import kz.beeproduct.model.tables.Product;
+import kz.beeproduct.model.tables.ProductInOrders;
 import kz.beeproduct.model.tables.Users;
 import kz.beeproduct.model.tables.records.OrdersRecord;
+import kz.beeproduct.model.tables.records.ProductInOrdersRecord;
 import kz.beeproduct.model.tables.records.ProductRecord;
 import kz.beeproduct.model.tables.records.UsersRecord;
 
@@ -36,12 +38,15 @@ public class Keys {
     public static final UniqueKey<OrdersRecord> ORDERS_PKEY = UniqueKeys0.ORDERS_PKEY;
     public static final UniqueKey<ProductRecord> PRODUCT_PKEY = UniqueKeys0.PRODUCT_PKEY;
     public static final UniqueKey<UsersRecord> USERS_PKEY = UniqueKeys0.USERS_PKEY;
+    public static final UniqueKey<UsersRecord> USERS_SESSION__KEY = UniqueKeys0.USERS_SESSION__KEY;
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions
     // -------------------------------------------------------------------------
 
     public static final ForeignKey<OrdersRecord, UsersRecord> ORDERS__ORDERS_USER__FKEY = ForeignKeys0.ORDERS__ORDERS_USER__FKEY;
+    public static final ForeignKey<ProductInOrdersRecord, ProductRecord> PRODUCT_IN_ORDERS__PRODUCT_IN_ORDERS_PRODUCT__FKEY = ForeignKeys0.PRODUCT_IN_ORDERS__PRODUCT_IN_ORDERS_PRODUCT__FKEY;
+    public static final ForeignKey<ProductInOrdersRecord, OrdersRecord> PRODUCT_IN_ORDERS__PRODUCT_IN_ORDERS_ORDER__FKEY = ForeignKeys0.PRODUCT_IN_ORDERS__PRODUCT_IN_ORDERS_ORDER__FKEY;
 
     // -------------------------------------------------------------------------
     // [#1459] distribute members to avoid static initialisers > 64kb
@@ -51,9 +56,12 @@ public class Keys {
         public static final UniqueKey<OrdersRecord> ORDERS_PKEY = Internal.createUniqueKey(Orders.ORDERS, "orders_pkey", new TableField[] { Orders.ORDERS.ID_ }, true);
         public static final UniqueKey<ProductRecord> PRODUCT_PKEY = Internal.createUniqueKey(Product.PRODUCT, "product_pkey", new TableField[] { Product.PRODUCT.ID_ }, true);
         public static final UniqueKey<UsersRecord> USERS_PKEY = Internal.createUniqueKey(Users.USERS, "users_pkey", new TableField[] { Users.USERS.LOGIN_ }, true);
+        public static final UniqueKey<UsersRecord> USERS_SESSION__KEY = Internal.createUniqueKey(Users.USERS, "users_session__key", new TableField[] { Users.USERS.SESSION_ }, true);
     }
 
     private static class ForeignKeys0 {
         public static final ForeignKey<OrdersRecord, UsersRecord> ORDERS__ORDERS_USER__FKEY = Internal.createForeignKey(Keys.USERS_PKEY, Orders.ORDERS, "orders_user__fkey", new TableField[] { Orders.ORDERS.USER_ }, true);
+        public static final ForeignKey<ProductInOrdersRecord, ProductRecord> PRODUCT_IN_ORDERS__PRODUCT_IN_ORDERS_PRODUCT__FKEY = Internal.createForeignKey(Keys.PRODUCT_PKEY, ProductInOrders.PRODUCT_IN_ORDERS, "product_in_orders_product__fkey", new TableField[] { ProductInOrders.PRODUCT_IN_ORDERS.PRODUCT_ }, true);
+        public static final ForeignKey<ProductInOrdersRecord, OrdersRecord> PRODUCT_IN_ORDERS__PRODUCT_IN_ORDERS_ORDER__FKEY = Internal.createForeignKey(Keys.ORDERS_PKEY, ProductInOrders.PRODUCT_IN_ORDERS, "product_in_orders_order__fkey", new TableField[] { ProductInOrders.PRODUCT_IN_ORDERS.ORDER_ }, true);
     }
 }
