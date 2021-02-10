@@ -6,8 +6,10 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.http.HttpMethod;
+import io.vertx.core.json.JsonObject;
 import io.vertx.core.json.jackson.DatabindCodec;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
@@ -23,14 +25,11 @@ import java.text.SimpleDateFormat;
 
 public class AppVert extends AbstractVerticle {
 
-    Logger log = LoggerFactory.getLogger(AppVert.class);
-
     static {
         System.setProperty("vertx.logger-delegate-factory-class-name", "io.vertx.core.logging.Log4j2LogDelegateFactory");
         System.setProperty("log4j.configurationFile", "log4j2.xml");
-        System.setProperty("vertx-config-path", "conf/app.json");
+        System.setProperty("vertx-config-path", "conf/config.json");
 
-//
         DatabindCodec.mapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
         DatabindCodec.mapper().registerModule(new Jdk8Module());
         DatabindCodec.mapper().registerModule(new JavaTimeModule());
@@ -47,20 +46,27 @@ public class AppVert extends AbstractVerticle {
     @Override
     public void start() throws Exception {
         super.start();
-        DbUtils.init("5433");
-        vertx.deployVerticle(MainVerticle.class.getName());
 
-        Router router = Router.router(vertx);
+        ConfigRetriever configRetriever = ConfigRetriever.create(vertx);
+        configRetriever.getConfig(result -> {
 
-        CorsHandler corsHandler = CorsHandler.create("*");
-        addCors(corsHandler);
-        router.route().handler(corsHandler);
-        router.route().handler(BodyHandler.create());
+            JsonObject config = result.result();
+            DbUtils.init(config.getString("db.port"), config.getString("db.name"));
 
-        BeeProductRouter beeProductRouter = new BeeProductRouter(router, vertx);
-        router = beeProductRouter.getRouter();
+            vertx.deployVerticle(MainVerticle.class.getName());
 
-        vertx.createHttpServer().requestHandler(router).listen(9000);
+            Router router = Router.router(vertx);
+            CorsHandler corsHandler = CorsHandler.create("*");
+            addCors(corsHandler);
+            router.route().handler(corsHandler);
+            router.route().handler(BodyHandler.create());
+
+            BeeProductRouter beeProductRouter = new BeeProductRouter(router, vertx);
+            router = beeProductRouter.getRouter();
+
+            vertx.createHttpServer().requestHandler(router).listen(config.getInteger("http.port"));
+
+        });
     }
 
     public CorsHandler addCors(CorsHandler corsHandler) {

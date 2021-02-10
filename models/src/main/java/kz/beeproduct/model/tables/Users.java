@@ -15,7 +15,7 @@ import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row8;
+import org.jooq.Row10;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -31,7 +31,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Users extends TableImpl<UsersRecord> {
 
-    private static final long serialVersionUID = -1475156179;
+    private static final long serialVersionUID = 87186411;
 
     /**
      * The reference instance of <code>public.users</code>
@@ -85,6 +85,16 @@ public class Users extends TableImpl<UsersRecord> {
      * The column <code>public.users.phone_</code>.
      */
     public final TableField<UsersRecord, String> PHONE_ = createField(DSL.name("phone_"), org.jooq.impl.SQLDataType.VARCHAR(15), this, "");
+
+    /**
+     * The column <code>public.users.removed_</code>.
+     */
+    public final TableField<UsersRecord, Boolean> REMOVED_ = createField(DSL.name("removed_"), org.jooq.impl.SQLDataType.BOOLEAN.defaultValue(org.jooq.impl.DSL.field("false", org.jooq.impl.SQLDataType.BOOLEAN)), this, "");
+
+    /**
+     * The column <code>public.users.fullname_</code>.
+     */
+    public final TableField<UsersRecord, String> FULLNAME_ = createField(DSL.name("fullname_"), org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
      * Create a <code>public.users</code> table reference
@@ -161,11 +171,11 @@ public class Users extends TableImpl<UsersRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row8 type methods
+    // Row10 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row8<String, String, Integer, Integer, Integer, String, String, String> fieldsRow() {
-        return (Row8) super.fieldsRow();
+    public Row10<String, String, Integer, Integer, Integer, String, String, String, Boolean, String> fieldsRow() {
+        return (Row10) super.fieldsRow();
     }
 }

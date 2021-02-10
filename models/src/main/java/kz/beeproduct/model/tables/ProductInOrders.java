@@ -15,7 +15,7 @@ import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row3;
+import org.jooq.Row4;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -30,7 +30,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ProductInOrders extends TableImpl<ProductInOrdersRecord> {
 
-    private static final long serialVersionUID = -1288808884;
+    private static final long serialVersionUID = -159518561;
 
     /**
      * The reference instance of <code>public.product_in_orders</code>
@@ -59,6 +59,11 @@ public class ProductInOrders extends TableImpl<ProductInOrdersRecord> {
      * The column <code>public.product_in_orders.amount_</code>.
      */
     public final TableField<ProductInOrdersRecord, Integer> AMOUNT_ = createField(DSL.name("amount_"), org.jooq.impl.SQLDataType.INTEGER, this, "");
+
+    /**
+     * The column <code>public.product_in_orders.removed_</code>.
+     */
+    public final TableField<ProductInOrdersRecord, Boolean> REMOVED_ = createField(DSL.name("removed_"), org.jooq.impl.SQLDataType.BOOLEAN.defaultValue(org.jooq.impl.DSL.field("false", org.jooq.impl.SQLDataType.BOOLEAN)), this, "");
 
     /**
      * Create a <code>public.product_in_orders</code> table reference
@@ -138,11 +143,11 @@ public class ProductInOrders extends TableImpl<ProductInOrdersRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row3 type methods
+    // Row4 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row3<Long, Long, Integer> fieldsRow() {
-        return (Row3) super.fieldsRow();
+    public Row4<Long, Long, Integer, Boolean> fieldsRow() {
+        return (Row4) super.fieldsRow();
     }
 }

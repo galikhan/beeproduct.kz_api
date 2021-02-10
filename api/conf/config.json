@@ -1,0 +1,6 @@
+{
+  "db.port":5433,
+  "db.name": "beeproduct",
+
+  "http.port": 9000
+}

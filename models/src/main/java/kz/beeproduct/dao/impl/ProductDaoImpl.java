@@ -27,11 +27,18 @@ public class ProductDaoImpl implements ProductDao {
     @Override
     public List<ProductDto> findByOrder(Long order) {
         return ctx
-                .selectFrom(PRODUCT)
-                .where(PRODUCT.ID_
-                        .in(ctx.select(PRODUCT_IN_ORDERS.PRODUCT_)
-                                .from(PRODUCT_IN_ORDERS)
-                                .where(PRODUCT_IN_ORDERS.ORDER_.eq(order))))
+                .select(PRODUCT.ID_,
+                        PRODUCT.TITLE_,
+                        PRODUCT.PRICE_,
+                        PRODUCT.AVATAR_,
+                        PRODUCT.DESCRIPTION,
+                        PRODUCT.PATH_,
+                        PRODUCT_IN_ORDERS.AMOUNT_)
+                .from(PRODUCT)
+                .join(PRODUCT_IN_ORDERS)
+                .on(PRODUCT.ID_.eq(PRODUCT_IN_ORDERS.PRODUCT_))
+                .where(PRODUCT_IN_ORDERS.ORDER_.eq(order))
+                .and(PRODUCT_IN_ORDERS.REMOVED_.eq(false))
                 .fetch()
                 .stream().map(ProductDto::new).collect(Collectors.toList());
     }

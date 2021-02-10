@@ -10,6 +10,7 @@ import java.util.List;
 
 import kz.beeproduct.model.Keys;
 import kz.beeproduct.model.Public;
+import kz.beeproduct.model.enums.Status;
 import kz.beeproduct.model.tables.records.OrdersRecord;
 
 import org.jooq.Field;
@@ -32,7 +33,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Orders extends TableImpl<OrdersRecord> {
 
-    private static final long serialVersionUID = 684675166;
+    private static final long serialVersionUID = 1762589119;
 
     /**
      * The reference instance of <code>public.orders</code>
@@ -63,9 +64,9 @@ public class Orders extends TableImpl<OrdersRecord> {
     public final TableField<OrdersRecord, LocalDateTime> ORDER_TIME_ = createField(DSL.name("order_time_"), org.jooq.impl.SQLDataType.LOCALDATETIME, this, "");
 
     /**
-     * The column <code>public.orders.amount_</code>.
+     * The column <code>public.orders.status_</code>.
      */
-    public final TableField<OrdersRecord, Integer> AMOUNT_ = createField(DSL.name("amount_"), org.jooq.impl.SQLDataType.INTEGER, this, "");
+    public final TableField<OrdersRecord, Status> STATUS_ = createField(DSL.name("status_"), org.jooq.impl.SQLDataType.VARCHAR.asEnumDataType(kz.beeproduct.model.enums.Status.class), this, "");
 
     /**
      * Create a <code>public.orders</code> table reference
@@ -155,7 +156,7 @@ public class Orders extends TableImpl<OrdersRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row4<Long, String, LocalDateTime, Integer> fieldsRow() {
+    public Row4<Long, String, LocalDateTime, Status> fieldsRow() {
         return (Row4) super.fieldsRow();
     }
 }

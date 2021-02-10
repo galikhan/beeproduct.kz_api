@@ -1,6 +1,7 @@
 package kz.beeproduct.handlers;
 
 import io.vertx.core.http.Cookie;
+import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import kz.beeproduct.dao.OrdersDao;
@@ -35,16 +36,9 @@ public class OrderHandler {
 
     public void addToCart(RoutingContext routingContext) {
 
-        System.out.println("add to cart");
+        log.info("add to cart");
+
         JsonObject body = routingContext.getBodyAsJson();
-        System.out.println(body.toString());
-        System.out.println("cookie count: " + routingContext.cookieCount());
-        routingContext.cookieMap().entrySet().stream().forEach(v -> {
-            System.out.println("k : " + v.getKey());
-            System.out.println("v : " + v.getValue().getValue());
-        });
-
-
         DbUtils.blocking(ctx -> {
 
             Cookie cookie = routingContext.getCookie(COOKIE_NAME);
@@ -66,10 +60,9 @@ public class OrderHandler {
 
             if (orders == null) {
                 orders = new OrdersDto();
-                orders.amount = 1;
                 orders.orderTime = LocalDateTime.now();
                 orders.user = user.login;
-                orders = ordersDao.save(orders);
+                orders = ordersDao.create(orders);
             }
 
             Long productId = body.getLong("productId");
@@ -86,6 +79,18 @@ public class OrderHandler {
 
     public void removeFromCart(RoutingContext routingContext) {
 
+        Long productId = Long.parseLong(routingContext.pathParam("product"));
+        log.info("product {}", productId);
+
+        DbUtils.blocking(ctx -> {
+
+            Cookie cookie = routingContext.getCookie(COOKIE_NAME);
+            String sessionId = cookie.getValue();
+            OrdersDao ordersDao = new OrdersDaoImpl(ctx);
+            OrdersDto order = ordersDao.findByUser(sessionId);
+            return ordersDao.removeProduct(order.id, productId);
+
+        }, result -> processResult(result, routingContext), routingContext.vertx());
     }
 
     public void findOrderBySesion(RoutingContext routingContext) {
@@ -105,12 +110,63 @@ public class OrderHandler {
 
             ProductDao productDao = new ProductDaoImpl(ctx);
             List<ProductDto> products = productDao.findByOrder(order.id);
-            log.info("prods {}", (products != null ? products.size() : 0));
+//            log.info("prods {}", (products != null ? products.size() : 0));
+            products.stream().forEach(v -> {
+                System.out.println(v);
+            });
             order.products = products;
 
             return order;
 
         }, result -> processResult(result, routingContext), routingContext.vertx());
 
+    }
+
+    public void updateProductAmount(RoutingContext routingContext) {
+
+        log.info("updateProductAmount");
+        JsonObject body = routingContext.getBodyAsJson();
+        Integer amount = body.getInteger("amount");
+        Long productId = Long.parseLong(routingContext.pathParam("product"));
+
+        DbUtils.blocking(ctx -> {
+
+            Cookie cookie = routingContext.getCookie(COOKIE_NAME);
+            String sessionId = cookie.getValue();
+            OrdersDao ordersDao = new OrdersDaoImpl(ctx);
+            OrdersDto orders = ordersDao.findByUser(sessionId);
+
+            return ordersDao.updateProduct(orders.id, productId, amount);
+
+        }, result -> processResult(result, routingContext), routingContext.vertx());
+
+    }
+
+    public void updateOrder(RoutingContext routingContext) {
+
+        log.info("update order");
+        String status = routingContext.pathParam("status");
+
+        UsersDto user = Json.decodeValue(routingContext.getBodyAsString(), UsersDto.class);
+        DbUtils.blocking(ctx -> {
+
+            Cookie cookie = routingContext.getCookie(COOKIE_NAME);
+            String sessionId = cookie.getValue();
+
+            OrdersDao ordersDao = new OrdersDaoImpl(ctx);
+            OrdersDto order = ordersDao.findByUser(sessionId);
+            log.info("order {}", order);
+            order.status = status;
+            ordersDao.update(order);
+
+            UsersDao usersDao = new UsersDaoImpl(ctx);
+            user.login = sessionId;
+            user.session = sessionId;
+
+            usersDao.save(user);
+
+            return user;
+
+        }, result -> processResult(result, routingContext), routingContext.vertx());
     }
 }

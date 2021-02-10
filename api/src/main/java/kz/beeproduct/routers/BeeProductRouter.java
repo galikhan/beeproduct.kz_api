@@ -34,7 +34,10 @@ public class BeeProductRouter {
 
         router.get("/api/order").handler(orderHandler::findOrderBySesion);
         router.post("/api/order/product").handler(orderHandler::addToCart);
-        router.delete("/api/order/product").handler(orderHandler::removeFromCart);
+        router.put("/api/order/product/:product").handler(orderHandler::updateProductAmount);
+        router.delete("/api/order/product/:product").handler(orderHandler::removeFromCart);
+
+        router.post("/api/order/:status").handler(orderHandler::updateOrder);
 
         ProductHandler productHandler = new ProductHandler();
         router.get("/api/product/all").handler(productHandler::findAll);

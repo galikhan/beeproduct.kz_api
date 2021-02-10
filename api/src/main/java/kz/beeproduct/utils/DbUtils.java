@@ -26,10 +26,10 @@ public class DbUtils {
     private static ExecutorService executorService = Executors.newCachedThreadPool();
 
     //    public static void init(JsonObject config) {
-    public static void init(String port) {
+    public static void init(String port, String dbname) {
 
         HikariConfig hikariConfig = new HikariConfig();
-        hikariConfig.setJdbcUrl("jdbc:postgresql://localhost:" + port + "/beeproduct");
+        hikariConfig.setJdbcUrl("jdbc:postgresql://localhost:" + port + "/" + dbname);
         hikariConfig.setUsername("postgres");
         hikariConfig.setPassword("postgres");
         hikariConfig.setMaximumPoolSize(10);
