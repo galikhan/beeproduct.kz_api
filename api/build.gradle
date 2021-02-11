@@ -23,6 +23,7 @@ dependencies {
     compile "io.vertx:vertx-web:${version}"
     compile "io.vertx:vertx-web-client:${version}"
     compile "io.vertx:vertx-config:${version}"
+    compile "io.vertx:vertx-auth-jwt:${version}"
 
     compile "org.apache.logging.log4j:log4j-core:${log4jVersion}"
     compile "org.apache.logging.log4j:log4j-api:${log4jVersion}"

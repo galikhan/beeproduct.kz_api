@@ -40,10 +40,10 @@ public class UsersDaoImpl implements UsersDao {
         return new UsersDto(record);
     }
 
-    @Override
-    public UsersDto findByLogin(String login) {
-        return null;
-    }
+//    @Override
+//    public UsersDto findByLogin(String login) {
+//        return null;
+//    }
 
     @Override
     public UsersDto findBySession(String sessionId) {

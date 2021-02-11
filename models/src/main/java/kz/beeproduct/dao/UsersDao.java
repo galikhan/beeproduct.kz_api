@@ -8,7 +8,7 @@ public interface UsersDao {
 
     UsersDto create(UsersDto user);
 
-    UsersDto findByLogin(String login);
+//    UsersDto findByLogin(String login);
 
     UsersDto findBySession(String sessionId);
 

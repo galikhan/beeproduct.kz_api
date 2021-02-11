@@ -26,3 +26,5 @@ gradlew
 gradlew.bat
 logs/
 logs/app.log
+private_key.pem
+public.pem

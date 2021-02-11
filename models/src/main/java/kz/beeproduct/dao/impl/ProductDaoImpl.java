@@ -2,7 +2,9 @@ package kz.beeproduct.dao.impl;
 
 import kz.beeproduct.dao.ProductDao;
 import kz.beeproduct.dto.ProductDto;
+import kz.beeproduct.model.Sequences;
 import kz.beeproduct.model.tables.Product;
+import kz.beeproduct.model.tables.records.ProductRecord;
 import org.jooq.DSLContext;
 
 import java.util.List;
@@ -41,5 +43,41 @@ public class ProductDaoImpl implements ProductDao {
                 .and(PRODUCT_IN_ORDERS.REMOVED_.eq(false))
                 .fetch()
                 .stream().map(ProductDto::new).collect(Collectors.toList());
+    }
+
+    @Override
+    public ProductDto create(ProductDto product) {
+        ProductRecord record = ctx.newRecord(PRODUCT);
+        record.setId_(ctx.nextval(Sequences.HONEYBEE_SEQ));
+        record.setTitle_(product.title);
+        record.setDescription(product.description);
+        record.setPrice_(product.price);
+        record.insert();
+        return new ProductDto(record);
+    }
+
+    @Override
+    public ProductDto update(ProductDto product) {
+        ProductRecord record = _findById(product.id);
+        record.setTitle_(product.title);
+        record.setDescription(product.description);
+        record.setPrice_(product.price);
+        record.update();
+        return new ProductDto(record);
+    }
+
+    private ProductRecord _findById(Long id) {
+        return ctx.selectFrom(PRODUCT).where(PRODUCT.ID_.eq(id)).fetchOne();
+    }
+
+    @Override
+    public int delete(ProductDto product) {
+        return 1;
+    }
+
+    @Override
+    public ProductDto findById(Long productId) {
+        ProductRecord productRecord = _findById(productId);
+        return productRecord != null ? new ProductDto(productRecord) : null;
     }
 }

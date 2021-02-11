@@ -3,6 +3,8 @@ package kz.beeproduct.dao;
 import kz.beeproduct.dto.OrdersDto;
 import kz.beeproduct.model.enums.Status;
 
+import java.util.List;
+
 public interface OrdersDao {
 
     OrdersDto create(OrdersDto order);
@@ -18,4 +20,8 @@ public interface OrdersDao {
     OrdersDto findByUser(String userId);
 
     OrdersDto findByUserAndStatus(String userId, Status status);
+
+    List<OrdersDto> getAll(Integer page);
+
+    int getCount();
 }

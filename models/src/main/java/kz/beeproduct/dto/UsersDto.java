@@ -25,6 +25,11 @@ public class UsersDto {
         this.floor = record.getFloor_();
         this.session = record.getSession_();
         this.fullname = record.getFullname_();
+    }
 
+    public static String getInfo(UsersDto user) {
+        return user != null ? user.fullname + " " + user.phone
+                + " (" + user.street + ", " + user.flat + " кв, "
+                + user.floor + " этаж, " + user.entrance + " подьезд)" : "";
     }
 }

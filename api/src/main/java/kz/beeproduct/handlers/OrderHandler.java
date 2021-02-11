@@ -169,4 +169,37 @@ public class OrderHandler {
 
         }, result -> processResult(result, routingContext), routingContext.vertx());
     }
+
+    public void getAll(RoutingContext routingContext) {
+        log.info("getAll");
+        Integer page = Integer.valueOf(routingContext.queryParams().get("page"));
+
+        DbUtils.blocking(ctx -> {
+
+            OrdersDao ordersDao = new OrdersDaoImpl(ctx);
+            UsersDao usersDao = new UsersDaoImpl(ctx);
+            ProductDao productDao = new ProductDaoImpl(ctx);
+            List<OrdersDto> orders = ordersDao.getAll(page);
+            orders.stream().forEach(r -> {
+                r.user = UsersDto.getInfo(usersDao.findBySession(r.user));
+                r.products = productDao.findByOrder(r.id);
+            });
+
+            return orders;
+
+        }, result -> processResult(result, routingContext), routingContext.vertx());
+
+    }
+
+    public void getCount(RoutingContext routingContext) {
+        log.info("getCount");
+
+        DbUtils.blocking(ctx -> {
+
+            OrdersDao ordersDao = new OrdersDaoImpl(ctx);
+            return ordersDao.getCount();
+
+        }, result -> processResult(result, routingContext), routingContext.vertx());
+
+    }
 }

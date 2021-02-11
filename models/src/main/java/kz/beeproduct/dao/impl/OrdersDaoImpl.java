@@ -10,6 +10,8 @@ import org.jooq.DSLContext;
 import org.jooq.tools.StringUtils;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static kz.beeproduct.model.tables.Orders.ORDERS;
 import static kz.beeproduct.model.tables.ProductInOrders.PRODUCT_IN_ORDERS;
@@ -100,7 +102,19 @@ public class OrdersDaoImpl implements OrdersDao {
         return record == null ? null : new OrdersDto(record);
     }
 
+    @Override
+    public List<OrdersDto> getAll(Integer page) {
+        int amount = 25;
+        int offset = amount * (page-1);
+        return ctx.selectFrom(ORDERS).orderBy(ORDERS.ORDER_TIME_.desc()).limit(offset, amount).fetch().stream().map(OrdersDto::new).collect(Collectors.toList());
+    }
+
     private OrdersRecord _findById(Long id) {
         return ctx.selectFrom(ORDERS).where(ORDERS.ID_.eq(id)).fetchOne();
+    }
+
+    @Override
+    public int getCount() {
+        return ctx.selectFrom(ORDERS).fetch().size();
     }
 }
