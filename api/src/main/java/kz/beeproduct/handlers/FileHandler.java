@@ -3,8 +3,11 @@ package kz.beeproduct.handlers;
 import io.vertx.ext.web.FileUpload;
 import io.vertx.ext.web.RoutingContext;
 import kz.beeproduct.dao.FileDao;
+import kz.beeproduct.dao.ProductDao;
 import kz.beeproduct.dao.impl.FileDaoImpl;
+import kz.beeproduct.dao.impl.ProductDaoImpl;
 import kz.beeproduct.dto.FileDto;
+import kz.beeproduct.dto.ProductDto;
 import kz.beeproduct.helper.FileUploadHelper;
 import kz.beeproduct.utils.DbUtils;
 import kz.beeproduct.utils.ResponseUtils;
@@ -66,7 +69,20 @@ public class FileHandler {
                         fileDto.container = container;
                         return fileDao.create(fileDto);
 
-                    }, result -> processResult(result, routingContext), routingContext.vertx());
+                    }, result -> {
+
+                        if(result.succeeded()) {
+
+                            DbUtils.blocking(ctx -> {
+                                ProductDao productDao = new ProductDaoImpl(ctx);
+                                ProductDto productDto = productDao.findById(container);
+                                productDto.avatar = result.result().filename;
+                                productDao.update(productDto);
+                                return result.result();
+                            }, success -> processResult(result, routingContext), routingContext.vertx());
+                       }
+
+                    }, routingContext.vertx());
 
                 } catch (IOException e) {
                     log.error("error", e);

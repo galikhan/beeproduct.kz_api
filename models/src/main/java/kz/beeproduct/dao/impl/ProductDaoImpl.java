@@ -61,6 +61,7 @@ public class ProductDaoImpl implements ProductDao {
         record.setTitle_(product.title);
         record.setDescription(product.description);
         record.setPrice_(product.price);
+        record.setAvatar_(product.avatar);
         record.update();
         return new ProductDto(record);
     }
