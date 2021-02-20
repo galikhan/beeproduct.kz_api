@@ -3,7 +3,6 @@ package kz.beeproduct.dao.impl;
 import kz.beeproduct.dao.ProductDao;
 import kz.beeproduct.dto.ProductDto;
 import kz.beeproduct.model.Sequences;
-import kz.beeproduct.model.tables.Product;
 import kz.beeproduct.model.tables.records.ProductRecord;
 import org.jooq.DSLContext;
 

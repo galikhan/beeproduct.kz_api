@@ -4,10 +4,12 @@
 package kz.beeproduct.model;
 
 
+import kz.beeproduct.model.tables.File;
 import kz.beeproduct.model.tables.Orders;
 import kz.beeproduct.model.tables.Product;
 import kz.beeproduct.model.tables.ProductInOrders;
 import kz.beeproduct.model.tables.Users;
+import kz.beeproduct.model.tables.records.FileRecord;
 import kz.beeproduct.model.tables.records.OrdersRecord;
 import kz.beeproduct.model.tables.records.ProductInOrdersRecord;
 import kz.beeproduct.model.tables.records.ProductRecord;
@@ -35,6 +37,7 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final UniqueKey<FileRecord> FILE_PKEY = UniqueKeys0.FILE_PKEY;
     public static final UniqueKey<OrdersRecord> ORDERS_PKEY = UniqueKeys0.ORDERS_PKEY;
     public static final UniqueKey<ProductRecord> PRODUCT_PKEY = UniqueKeys0.PRODUCT_PKEY;
     public static final UniqueKey<UsersRecord> USERS_PKEY = UniqueKeys0.USERS_PKEY;
@@ -53,6 +56,7 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     private static class UniqueKeys0 {
+        public static final UniqueKey<FileRecord> FILE_PKEY = Internal.createUniqueKey(File.FILE, "file_pkey", new TableField[] { File.FILE.ID_ }, true);
         public static final UniqueKey<OrdersRecord> ORDERS_PKEY = Internal.createUniqueKey(Orders.ORDERS, "orders_pkey", new TableField[] { Orders.ORDERS.ID_ }, true);
         public static final UniqueKey<ProductRecord> PRODUCT_PKEY = Internal.createUniqueKey(Product.PRODUCT, "product_pkey", new TableField[] { Product.PRODUCT.ID_ }, true);
         public static final UniqueKey<UsersRecord> USERS_PKEY = Internal.createUniqueKey(Users.USERS, "users_pkey", new TableField[] { Users.USERS.LOGIN_ }, true);

@@ -32,6 +32,15 @@ create table product_in_orders(
     order_ bigint references orders(id_)
 );
 
+create table file(
+    id_ bigint primary key,
+    container_ bigint,
+    filename_ text,
+    filepath_ text,
+    removed_ boolean default false,
+    modified_ timestamp,
+    created_ timestamp default now()
+);
 
 --alter table users drop column session_ ;
 alter table users add column session_ varchar(255) unique;

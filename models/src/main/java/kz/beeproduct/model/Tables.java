@@ -4,6 +4,7 @@
 package kz.beeproduct.model;
 
 
+import kz.beeproduct.model.tables.File;
 import kz.beeproduct.model.tables.Orders;
 import kz.beeproduct.model.tables.Product;
 import kz.beeproduct.model.tables.ProductInOrders;
@@ -15,6 +16,11 @@ import kz.beeproduct.model.tables.Users;
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
+
+    /**
+     * The table <code>public.file</code>.
+     */
+    public static final File FILE = File.FILE;
 
     /**
      * The table <code>public.orders</code>.

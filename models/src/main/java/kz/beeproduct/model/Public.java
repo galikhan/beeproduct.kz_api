@@ -7,6 +7,7 @@ package kz.beeproduct.model;
 import java.util.Arrays;
 import java.util.List;
 
+import kz.beeproduct.model.tables.File;
 import kz.beeproduct.model.tables.Orders;
 import kz.beeproduct.model.tables.Product;
 import kz.beeproduct.model.tables.ProductInOrders;
@@ -24,12 +25,17 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Public extends SchemaImpl {
 
-    private static final long serialVersionUID = 1157119867;
+    private static final long serialVersionUID = -1988092619;
 
     /**
      * The reference instance of <code>public</code>
      */
     public static final Public PUBLIC = new Public();
+
+    /**
+     * The table <code>public.file</code>.
+     */
+    public final File FILE = File.FILE;
 
     /**
      * The table <code>public.orders</code>.
@@ -73,6 +79,7 @@ public class Public extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.<Table<?>>asList(
+            File.FILE,
             Orders.ORDERS,
             Product.PRODUCT,
             ProductInOrders.PRODUCT_IN_ORDERS,
