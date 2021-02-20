@@ -10,6 +10,7 @@ import io.vertx.ext.web.handler.AuthenticationHandler;
 import io.vertx.ext.web.handler.JWTAuthHandler;
 import io.vertx.ext.web.handler.SessionHandler;
 import io.vertx.ext.web.sstore.SessionStore;
+import kz.beeproduct.handlers.FileHandler;
 import kz.beeproduct.handlers.OrderHandler;
 import kz.beeproduct.handlers.PrivateProductHandler;
 import kz.beeproduct.handlers.ProductHandler;
@@ -23,7 +24,7 @@ public class BeeProductRouter {
     Router router;
     private Logger log = LogManager.getLogger(BeeProductRouter.class);
 
-    public BeeProductRouter(Router router, Vertx vertx) {
+    public BeeProductRouter(Router router, Vertx vertx, JsonObject config) {
 
         SessionStore sessionStore = SessionStore.create(vertx);
         SessionHandler sessionHandler = SessionHandler.create(sessionStore);
@@ -45,6 +46,8 @@ public class BeeProductRouter {
         router.get("/api/private/order/all").handler(orderHandler::getAll);
         router.get("/api/private/order/count").handler(orderHandler::getCount);
         //private routes
+
+
 
         router.post("/api/authenticate").handler(data-> {
             JsonObject jsonObject = data.getBodyAsJson();
@@ -72,6 +75,10 @@ public class BeeProductRouter {
 
         ProductHandler productHandler = new ProductHandler();
         router.get("/api/product/all").handler(productHandler::findAll);
+
+        FileHandler fileHandler = new FileHandler(config.getString("fileupload.path"));
+        router.post("/api/container/:container/file").handler(fileHandler::uploadedFile);
+        router.get("/api/container/:container/file").handler(fileHandler::findByContainer);
 
         router.errorHandler(500, error -> {
             if (error.failed()) {

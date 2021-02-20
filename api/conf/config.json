@@ -2,5 +2,7 @@
   "db.port":5433,
   "db.name": "beeproduct",
 
-  "http.port": 9000
+  "http.port": 9000,
+
+  "fileupload.path": "/Users/gali/projects/beeproduct/dist/beeproduct/img"
 }

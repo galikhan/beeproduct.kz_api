@@ -8,6 +8,7 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.DeploymentOptions;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.json.jackson.DatabindCodec;
@@ -56,45 +57,9 @@ public class AppVert extends AbstractVerticle {
             JsonObject config = result.result();
             DbUtils.init(config.getString("db.port"), config.getString("db.name"));
 
-            vertx.deployVerticle(MainVerticle.class.getName());
-
-            Router router = Router.router(vertx);
-            CorsHandler corsHandler = CorsHandler.create("*");
-            addCors(corsHandler);
-            router.route().handler(corsHandler);
-            router.route().handler(BodyHandler.create());
-
-            BeeProductRouter beeProductRouter = new BeeProductRouter(router, vertx);
-            router = beeProductRouter.getRouter();
-
-            vertx.createHttpServer().requestHandler(router).listen(config.getInteger("http.port"));
-
+            vertx.deployVerticle(MainVerticle.class.getName(), new DeploymentOptions().setConfig(config));
         });
     }
 
-    public CorsHandler addCors(CorsHandler corsHandler) {
-        corsHandler
-                .allowedMethod(HttpMethod.GET)
-                .allowedMethod(HttpMethod.DELETE)
-                .allowedMethod(HttpMethod.POST)
-                .allowedMethod(HttpMethod.PUT)
-                .allowedMethod(HttpMethod.PATCH)
-                .allowedHeader("Authorization")
-                .allowedHeader("user-agent")
-                .allowedHeader("Access-Control-Request-Method")
-                .allowedHeader("Access-Control-Allow-Credentials")
-                .allowedHeader("Access-Control-Allow-Origin")
-                .allowedHeader("Access-Control-Allow-Headers")
-                .allowedHeader("Content-Type")
-                .allowedHeader("Content-Length")
-                .allowedHeader("X-Requested-With")
-                .allowedHeader("x-auth-token")
-                .allowedHeader("Location")
-                .exposedHeader("Location")
-                .exposedHeader("Content-Type")
-                .exposedHeader("Content-Length")
-                .exposedHeader("ETag");
-        return corsHandler;
-    }
 }
 
