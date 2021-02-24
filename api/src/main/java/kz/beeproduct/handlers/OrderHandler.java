@@ -44,11 +44,11 @@ public class OrderHandler {
             Cookie cookie = routingContext.getCookie(COOKIE_NAME);
             String sessionId = cookie.getValue();
 
-            System.out.println("sess id : " + sessionId);
+            log.info("sess id {} ", sessionId);
             UsersDao usersDao = new UsersDaoImpl(ctx);
             UsersDto user = usersDao.findBySession(sessionId);
             if (user == null) {
-                System.out.println("users is not found session id - " + sessionId);
+                log.info("users is not found session id - {}", sessionId);
                 user = new UsersDto();
                 user.session = sessionId;
                 user.login = sessionId;
@@ -66,11 +66,9 @@ public class OrderHandler {
             }
 
             Long productId = body.getLong("productId");
-            System.out.println("body : " + productId);
+            log.info("body - {}", productId);
             ordersDao.addProduct(orders.id, productId);
 
-
-//            throw new RuntimeException("easdafafdf");
             return orders;
 
         }, result -> processResult(result, routingContext), routingContext.vertx());

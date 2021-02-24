@@ -55,3 +55,5 @@ alter table product add column removed_ boolean default false;
 
 insert into product(id_, title_, description, avatar_, path_, price_) values(2, 'Натуральный', 'Оне мморе натурал мед', '', '', 4000);
 insert into product(id_, title_, description, avatar_, path_, price_) values(3, '222Натуральный222', 'Оне мморе натурал мед222', '', '', 4700);
+
+alter table users add column payment_type_ varchar(255);

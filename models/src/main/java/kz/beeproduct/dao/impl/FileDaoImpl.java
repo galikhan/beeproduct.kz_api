@@ -5,6 +5,7 @@ import kz.beeproduct.dto.FileDto;
 import kz.beeproduct.model.Sequences;
 import kz.beeproduct.model.tables.records.FileRecord;
 import org.jooq.DSLContext;
+import org.jooq.Result;
 
 import java.time.LocalDateTime;
 
@@ -35,8 +36,11 @@ public class FileDaoImpl implements FileDao {
 
     @Override
     public FileDto findByContainer(Long container) {
-        FileRecord record = ctx.selectFrom(FILE).where(FILE.CONTAINER_.eq(container)).fetch().get(0);
-        return record == null ? null : new FileDto(record);
+        Result<FileRecord> records = ctx.selectFrom(FILE).where(FILE.CONTAINER_.eq(container)).fetch();
+        if(records.size() > 0) {
+            return new FileDto(records.get(0));
+        }
+        return null;
     }
 
 
