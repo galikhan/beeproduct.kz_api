@@ -15,7 +15,7 @@ import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row10;
+import org.jooq.Row11;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -31,7 +31,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Users extends TableImpl<UsersRecord> {
 
-    private static final long serialVersionUID = 87186411;
+    private static final long serialVersionUID = 1681291325;
 
     /**
      * The reference instance of <code>public.users</code>
@@ -95,6 +95,11 @@ public class Users extends TableImpl<UsersRecord> {
      * The column <code>public.users.fullname_</code>.
      */
     public final TableField<UsersRecord, String> FULLNAME_ = createField(DSL.name("fullname_"), org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
+
+    /**
+     * The column <code>public.users.payment_type_</code>.
+     */
+    public final TableField<UsersRecord, String> PAYMENT_TYPE_ = createField(DSL.name("payment_type_"), org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
      * Create a <code>public.users</code> table reference
@@ -171,11 +176,11 @@ public class Users extends TableImpl<UsersRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row10 type methods
+    // Row11 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row10<String, String, Integer, Integer, Integer, String, String, String, Boolean, String> fieldsRow() {
-        return (Row10) super.fieldsRow();
+    public Row11<String, String, Integer, Integer, Integer, String, String, String, Boolean, String, String> fieldsRow() {
+        return (Row11) super.fieldsRow();
     }
 }

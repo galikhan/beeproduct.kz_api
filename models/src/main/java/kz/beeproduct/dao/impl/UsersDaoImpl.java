@@ -2,7 +2,6 @@ package kz.beeproduct.dao.impl;
 
 import kz.beeproduct.dao.UsersDao;
 import kz.beeproduct.dto.UsersDto;
-import kz.beeproduct.model.tables.Users;
 import kz.beeproduct.model.tables.records.UsersRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -39,11 +38,6 @@ public class UsersDaoImpl implements UsersDao {
 
         return new UsersDto(record);
     }
-
-//    @Override
-//    public UsersDto findByLogin(String login) {
-//        return null;
-//    }
 
     @Override
     public UsersDto findBySession(String sessionId) {
