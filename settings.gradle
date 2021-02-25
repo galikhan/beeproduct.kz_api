@@ -10,3 +10,4 @@
 rootProject.name = 'beeproduct.kz'
 include 'api'
 include 'models'
+include 'info_bot'

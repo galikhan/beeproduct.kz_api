@@ -1,0 +1,49 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
+}
+
+repositories {
+    jcenter()
+    maven {
+        url "https://oss.sonatype.org/content/repositories/iovertx-3905/"
+    }
+}
+
+def vertx_version = '4.0.0'
+def log4j2 = '2.14.0'
+
+dependencies {
+    compile "io.vertx:vertx-core:$vertx_version"
+    compile "io.vertx:vertx-web:$vertx_version"
+    compile "org.apache.logging.log4j:log4j-core:$log4j2"
+    compile "io.vertx:vertx-web-client:$vertx_version"
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.11.2'
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.11.2'
+
+    testImplementation 'junit:junit:4.13'
+    
+}
+
+mainClassName = 'io.vertx.core.Launcher'
+def mainVerticleName = 'kz.tgbot.AppVerticle'
+
+def watchForChange = 'src/**/*.java'
+
+def doOnChange = "../gradlew classes"
+
+run {
+    args = ['run', mainVerticleName, "--redeploy=$watchForChange", "--launcher-class=$mainClassName", "--on-redeploy=$doOnChange"]
+}
+
+shadowJar {
+    manifest {
+        attributes "Main-Verticle": mainVerticleName
+    }
+
+    mergeServiceFiles {
+        include 'META-INF/services/io.vertx.core.spi.VerticleFactory'
+    }
+}
+
