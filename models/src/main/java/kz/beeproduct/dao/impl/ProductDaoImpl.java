@@ -5,6 +5,8 @@ import kz.beeproduct.dto.ProductDto;
 import kz.beeproduct.model.Sequences;
 import kz.beeproduct.model.tables.records.ProductRecord;
 import org.jooq.DSLContext;
+import org.jooq.Record1;
+import org.jooq.impl.DSL;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -80,4 +82,19 @@ public class ProductDaoImpl implements ProductDao {
         ProductRecord productRecord = _findById(productId);
         return productRecord != null ? new ProductDto(productRecord) : null;
     }
+
+    @Override
+    public boolean alreadyAdded(Long productId, Long order) {
+
+        Record1<Integer> result = ctx.select(DSL.count()).from(PRODUCT_IN_ORDERS)
+                .where(PRODUCT_IN_ORDERS.PRODUCT_.eq(productId))
+                .and(PRODUCT_IN_ORDERS.ORDER_.eq(order))
+                .and(PRODUCT_IN_ORDERS.REMOVED_.eq(false).or(PRODUCT_IN_ORDERS.REMOVED_.isNull()))
+                .fetchOne();
+        if(result.value1() == 0) {
+            return false;
+        }
+        return true;
+    }
 }
+

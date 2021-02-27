@@ -12,6 +12,7 @@ public class UsersDto {
     public Integer flat;
     public String fullname;
     public String session;
+    public String paymentType;
 
     public UsersDto() {
     }
@@ -25,6 +26,7 @@ public class UsersDto {
         this.floor = record.getFloor_();
         this.session = record.getSession_();
         this.fullname = record.getFullname_();
+        this.paymentType = record.getPaymentType_();
     }
 
     public static String getInfo(UsersDto user) {

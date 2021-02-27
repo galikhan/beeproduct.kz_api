@@ -8,6 +8,7 @@ import kz.beeproduct.model.tables.File;
 import kz.beeproduct.model.tables.Orders;
 import kz.beeproduct.model.tables.Product;
 import kz.beeproduct.model.tables.ProductInOrders;
+import kz.beeproduct.model.tables.TgUser;
 import kz.beeproduct.model.tables.Users;
 
 
@@ -36,6 +37,11 @@ public class Tables {
      * The table <code>public.product_in_orders</code>.
      */
     public static final ProductInOrders PRODUCT_IN_ORDERS = ProductInOrders.PRODUCT_IN_ORDERS;
+
+    /**
+     * The table <code>public.tg_user</code>.
+     */
+    public static final TgUser TG_USER = TgUser.TG_USER;
 
     /**
      * The table <code>public.users</code>.

@@ -2,9 +2,9 @@ package kz.tgbot.dto.telegram.send;
 
 public class SendMessageDto {
 
-    public String chat_id;
+    public Integer chat_id;
     public String text;
-    public ReplyMarkupDto reply_markup;
+//    public ReplyMarkupDto reply_markup;
 
     public SendMessageDto() {
     }

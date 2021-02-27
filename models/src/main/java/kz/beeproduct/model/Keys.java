@@ -8,11 +8,13 @@ import kz.beeproduct.model.tables.File;
 import kz.beeproduct.model.tables.Orders;
 import kz.beeproduct.model.tables.Product;
 import kz.beeproduct.model.tables.ProductInOrders;
+import kz.beeproduct.model.tables.TgUser;
 import kz.beeproduct.model.tables.Users;
 import kz.beeproduct.model.tables.records.FileRecord;
 import kz.beeproduct.model.tables.records.OrdersRecord;
 import kz.beeproduct.model.tables.records.ProductInOrdersRecord;
 import kz.beeproduct.model.tables.records.ProductRecord;
+import kz.beeproduct.model.tables.records.TgUserRecord;
 import kz.beeproduct.model.tables.records.UsersRecord;
 
 import org.jooq.ForeignKey;
@@ -40,6 +42,8 @@ public class Keys {
     public static final UniqueKey<FileRecord> FILE_PKEY = UniqueKeys0.FILE_PKEY;
     public static final UniqueKey<OrdersRecord> ORDERS_PKEY = UniqueKeys0.ORDERS_PKEY;
     public static final UniqueKey<ProductRecord> PRODUCT_PKEY = UniqueKeys0.PRODUCT_PKEY;
+    public static final UniqueKey<TgUserRecord> TG_USER_PKEY = UniqueKeys0.TG_USER_PKEY;
+    public static final UniqueKey<TgUserRecord> TG_USER_CHAT_ID__KEY = UniqueKeys0.TG_USER_CHAT_ID__KEY;
     public static final UniqueKey<UsersRecord> USERS_PKEY = UniqueKeys0.USERS_PKEY;
     public static final UniqueKey<UsersRecord> USERS_SESSION__KEY = UniqueKeys0.USERS_SESSION__KEY;
 
@@ -59,6 +63,8 @@ public class Keys {
         public static final UniqueKey<FileRecord> FILE_PKEY = Internal.createUniqueKey(File.FILE, "file_pkey", new TableField[] { File.FILE.ID_ }, true);
         public static final UniqueKey<OrdersRecord> ORDERS_PKEY = Internal.createUniqueKey(Orders.ORDERS, "orders_pkey", new TableField[] { Orders.ORDERS.ID_ }, true);
         public static final UniqueKey<ProductRecord> PRODUCT_PKEY = Internal.createUniqueKey(Product.PRODUCT, "product_pkey", new TableField[] { Product.PRODUCT.ID_ }, true);
+        public static final UniqueKey<TgUserRecord> TG_USER_PKEY = Internal.createUniqueKey(TgUser.TG_USER, "tg_user_pkey", new TableField[] { TgUser.TG_USER.ID_ }, true);
+        public static final UniqueKey<TgUserRecord> TG_USER_CHAT_ID__KEY = Internal.createUniqueKey(TgUser.TG_USER, "tg_user_chat_id__key", new TableField[] { TgUser.TG_USER.CHAT_ID_ }, true);
         public static final UniqueKey<UsersRecord> USERS_PKEY = Internal.createUniqueKey(Users.USERS, "users_pkey", new TableField[] { Users.USERS.LOGIN_ }, true);
         public static final UniqueKey<UsersRecord> USERS_SESSION__KEY = Internal.createUniqueKey(Users.USERS, "users_session__key", new TableField[] { Users.USERS.SESSION_ }, true);
     }

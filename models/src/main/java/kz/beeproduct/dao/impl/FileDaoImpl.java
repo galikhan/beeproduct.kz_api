@@ -36,7 +36,7 @@ public class FileDaoImpl implements FileDao {
 
     @Override
     public FileDto findByContainer(Long container) {
-        Result<FileRecord> records = ctx.selectFrom(FILE).where(FILE.CONTAINER_.eq(container)).fetch();
+        Result<FileRecord> records = ctx.selectFrom(FILE).where(FILE.CONTAINER_.eq(container)).orderBy(FILE.CREATED_.desc()).fetch();
         if(records.size() > 0) {
             return new FileDto(records.get(0));
         }

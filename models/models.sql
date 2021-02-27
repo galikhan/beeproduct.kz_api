@@ -57,3 +57,12 @@ insert into product(id_, title_, description, avatar_, path_, price_) values(2, 
 insert into product(id_, title_, description, avatar_, path_, price_) values(3, '222Натуральный222', 'Оне мморе натурал мед222', '', '', 4700);
 
 alter table users add column payment_type_ varchar(255);
+
+create table tg_user (
+    id_ bigint primary key,
+    chat_id_ integer unique,
+    username_ varchar(255),
+    first_name_ varchar(255),
+    role_ varchar(20)
+);
+

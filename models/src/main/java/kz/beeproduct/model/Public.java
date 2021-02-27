@@ -11,6 +11,7 @@ import kz.beeproduct.model.tables.File;
 import kz.beeproduct.model.tables.Orders;
 import kz.beeproduct.model.tables.Product;
 import kz.beeproduct.model.tables.ProductInOrders;
+import kz.beeproduct.model.tables.TgUser;
 import kz.beeproduct.model.tables.Users;
 
 import org.jooq.Catalog;
@@ -25,7 +26,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Public extends SchemaImpl {
 
-    private static final long serialVersionUID = -1988092619;
+    private static final long serialVersionUID = 23348579;
 
     /**
      * The reference instance of <code>public</code>
@@ -51,6 +52,11 @@ public class Public extends SchemaImpl {
      * The table <code>public.product_in_orders</code>.
      */
     public final ProductInOrders PRODUCT_IN_ORDERS = ProductInOrders.PRODUCT_IN_ORDERS;
+
+    /**
+     * The table <code>public.tg_user</code>.
+     */
+    public final TgUser TG_USER = TgUser.TG_USER;
 
     /**
      * The table <code>public.users</code>.
@@ -83,6 +89,7 @@ public class Public extends SchemaImpl {
             Orders.ORDERS,
             Product.PRODUCT,
             ProductInOrders.PRODUCT_IN_ORDERS,
+            TgUser.TG_USER,
             Users.USERS);
     }
 }

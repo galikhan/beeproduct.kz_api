@@ -63,6 +63,7 @@ public class UsersDaoImpl implements UsersDao {
         record.setSession_(user.session);
         record.setLogin_(user.login);
         record.setFullname_(user.fullname);
+        record.setPaymentType_(user.paymentType);
         return record;
 
     }

@@ -7,6 +7,8 @@ public class MessageDto {
     public ChatDto chat;
     public Integer date;
     public String text;
+    public MessageDto reply_to_message;
+
 
     public MessageDto() {
     }

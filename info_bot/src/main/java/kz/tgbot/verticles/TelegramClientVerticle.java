@@ -1,10 +1,15 @@
 package kz.tgbot.verticles;
 
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Vertx;
 import io.vertx.core.json.Json;
+import kz.beeproduct.dao.TgUserDao;
+import kz.beeproduct.dao.impl.TgUserDaoImpl;
+import kz.beeproduct.dto.TgUserDto;
 import kz.tgbot.client.TelegramApiClient;
 import kz.tgbot.dto.ResultDto;
 import kz.tgbot.dto.UpdateDto;
+import kz.tgbot.utils.DbUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,10 +18,12 @@ public class TelegramClientVerticle extends AbstractVerticle {
     private TelegramApiClient telegramApiClient;
     private Logger log = LogManager.getLogger(TelegramApiClient.class);
     private Integer chatUpdateId = null;
+    private Vertx vertxInstance;
 
     @Override
     public void start() throws Exception {
         super.start();
+        this.vertxInstance = vertx;
         telegramApiClient = new TelegramApiClient(vertx);
         fetchUpdateOnce();
     }
@@ -59,7 +66,25 @@ public class TelegramClientVerticle extends AbstractVerticle {
     }
 
     private void handleMessage(ResultDto result) {
+
         if("subscribe".equals(result.message.text)) {
+
+            TgUserDto user = new TgUserDto();
+            user.chatId = result.message.chat.id;
+            user.username = result.message.from.username;
+            user.role = "admin";
+            user.firstname = result.message.from.first_name;
+
+            DbUtils.blocking(ctx -> {
+                TgUserDao tgUserDao = new TgUserDaoImpl(ctx);
+                TgUserDto savedUser = tgUserDao.findByChatId(user.chatId);
+                if(savedUser == null) {
+                    savedUser = tgUserDao.create(user);
+                }
+                return savedUser;
+            }, then -> {
+                telegramApiClient.sendMessage(result.message.chat.id, "Вы подписались на уведомления");
+            }, this.vertxInstance);
 
         }
     }

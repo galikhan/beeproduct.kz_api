@@ -11,16 +11,20 @@ repositories {
     }
 }
 
-def vertx_version = '4.0.0'
+def version = '4.0.0'
 def log4j2 = '2.14.0'
 
 dependencies {
-    compile "io.vertx:vertx-core:$vertx_version"
-    compile "io.vertx:vertx-web:$vertx_version"
+    compile "io.vertx:vertx-core:$version"
+    compile "io.vertx:vertx-web:$version"
+    compile "io.vertx:vertx-web-client:$version"
+    compile "io.vertx:vertx-config:${version}"
     compile "org.apache.logging.log4j:log4j-core:$log4j2"
-    compile "io.vertx:vertx-web-client:$vertx_version"
     compile 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.11.2'
     compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.11.2'
+    compile 'com.zaxxer:HikariCP:3.4.5'
+    compile project(':models')
+    compile 'org.postgresql:postgresql:42.2.14.jre7'
 
     testImplementation 'junit:junit:4.13'
     

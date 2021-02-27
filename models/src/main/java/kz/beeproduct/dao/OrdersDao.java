@@ -24,4 +24,5 @@ public interface OrdersDao {
     List<OrdersDto> getAll(Integer page);
 
     int getCount();
+
 }

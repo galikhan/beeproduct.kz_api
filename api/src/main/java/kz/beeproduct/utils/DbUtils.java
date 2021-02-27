@@ -5,11 +5,11 @@ import com.zaxxer.hikari.HikariDataSource;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -22,7 +22,7 @@ public class DbUtils {
 
 
     private static HikariDataSource dataSource;
-    private static Logger log = LoggerFactory.getLogger(DbUtils.class);
+    private static Logger log = LogManager.getLogger(DbUtils.class);
     private static ExecutorService executorService = Executors.newCachedThreadPool();
 
     //    public static void init(JsonObject config) {

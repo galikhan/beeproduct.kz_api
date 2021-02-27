@@ -14,6 +14,7 @@ import kz.beeproduct.dto.OrdersDto;
 import kz.beeproduct.dto.ProductDto;
 import kz.beeproduct.dto.UsersDto;
 import kz.beeproduct.utils.DbUtils;
+import kz.beeproduct.utils.OrderUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -66,9 +67,14 @@ public class OrderHandler {
             }
 
             Long productId = body.getLong("productId");
-            log.info("body - {}", productId);
-            ordersDao.addProduct(orders.id, productId);
-
+            log.info("body - {} orderId - {}", productId, orders.id);
+            ProductDao productDao = new ProductDaoImpl(ctx);
+            boolean alreadyAdded = productDao.alreadyAdded(productId, orders.id);
+            if(alreadyAdded == false) {
+                ordersDao.addProduct(orders.id, productId);
+            } else {
+                log.info("already in cart {}", productId);
+            }
             return orders;
 
         }, result -> processResult(result, routingContext), routingContext.vertx());
@@ -155,13 +161,21 @@ public class OrderHandler {
             OrdersDto order = ordersDao.findByUser(sessionId);
             log.info("order {}", order);
             order.status = status;
-            ordersDao.update(order);
+            OrdersDto savedOrder = ordersDao.update(order);
 
             UsersDao usersDao = new UsersDaoImpl(ctx);
             user.login = sessionId;
             user.session = sessionId;
 
-            usersDao.save(user);
+            UsersDto savedUser = usersDao.save(user);
+            ProductDao productDao = new ProductDaoImpl(ctx);
+            savedOrder.products = productDao.findByOrder(savedOrder.id);
+
+            String info = OrderUtils.orderAndUserInfoToString(savedOrder, savedUser);
+            routingContext
+                    .vertx()
+                    .eventBus()
+                    .send("telegram.message", info);
 
             return user;
 

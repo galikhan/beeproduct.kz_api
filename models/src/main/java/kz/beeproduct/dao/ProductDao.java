@@ -17,4 +17,6 @@ public interface ProductDao {
     int delete(ProductDto product);
 
     ProductDto findById(Long productId);
+
+    boolean alreadyAdded(Long productId, Long order);
 }

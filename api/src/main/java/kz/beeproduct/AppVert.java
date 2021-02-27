@@ -23,6 +23,7 @@ import kz.beeproduct.helper.JWTAuthHelper;
 import kz.beeproduct.routers.BeeProductRouter;
 import kz.beeproduct.utils.DbUtils;
 import kz.beeproduct.verticles.MainVerticle;
+import kz.beeproduct.verticles.TelegramClientVerticle;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -30,7 +31,6 @@ import java.text.SimpleDateFormat;
 public class AppVert extends AbstractVerticle {
 
     static {
-        System.setProperty("vertx.logger-delegate-factory-class-name", "io.vertx.core.logging.Log4j2LogDelegateFactory");
         System.setProperty("log4j.configurationFile", "log4j2.xml");
         System.setProperty("vertx-config-path", "conf/config.json");
 
@@ -58,6 +58,7 @@ public class AppVert extends AbstractVerticle {
             DbUtils.init(config.getString("db.port"), config.getString("db.name"));
 
             vertx.deployVerticle(MainVerticle.class.getName(), new DeploymentOptions().setConfig(config));
+            vertx.deployVerticle(TelegramClientVerticle.class.getName());
         });
     }
 
