@@ -4,5 +4,9 @@
 
   "http.port": 9000,
 
-  "fileupload.path": "/Users/gali/projects/beeproduct/img"
+  "fileupload.path": "/Users/gali/projects/beeproduct/img",
+
+  "telegram.url": "https://api.telegram.org",
+  "telegram.bot.token": "bot1492780157:AAHsXaK8G_hQOEfPD2dHzo8ajiROmo0pfHM"
+
 }

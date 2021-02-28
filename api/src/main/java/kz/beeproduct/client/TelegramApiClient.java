@@ -8,14 +8,18 @@ import org.apache.logging.log4j.Logger;
 
 public class TelegramApiClient {
 
-    private static String apiUrl = "https://api.telegram.org";
-    private static String token = "bot1698913294:AAHKHSXI7ecR4D2V14GZq7Y1k_CBExsv2JA";
-    public String url = apiUrl + "/" + token;
+
+    private String apiUrl;
+    private String token;
+    private String url;
     private Logger log = LogManager.getLogger(TelegramApiClient.class);
     private WebClient client;
 
-    public TelegramApiClient(Vertx vertx) {
+    public TelegramApiClient(Vertx vertx, JsonObject config) {
         client = WebClient.create(vertx);
+        apiUrl = config.getString("telegram.url");
+        token = config.getString("telegram.bot.token");
+        url = apiUrl + "/" + token;
     }
 
     public void sendMessage(Integer chatId, String text) {

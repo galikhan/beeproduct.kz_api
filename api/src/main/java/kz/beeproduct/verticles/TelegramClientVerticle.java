@@ -17,7 +17,7 @@ public class TelegramClientVerticle extends AbstractVerticle {
     public void start() throws Exception {
         super.start();
 
-        client = new TelegramApiClient(vertx);
+        client = new TelegramApiClient(vertx, config());
         vertx.eventBus().consumer("telegram.message").handler(message -> {
             log.info("hello log info {}", message.body());
             String messageBody = (String) message.body();

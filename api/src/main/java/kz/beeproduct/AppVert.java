@@ -58,7 +58,7 @@ public class AppVert extends AbstractVerticle {
             DbUtils.init(config.getString("db.port"), config.getString("db.name"));
 
             vertx.deployVerticle(MainVerticle.class.getName(), new DeploymentOptions().setConfig(config));
-            vertx.deployVerticle(TelegramClientVerticle.class.getName());
+            vertx.deployVerticle(TelegramClientVerticle.class.getName(), new DeploymentOptions().setConfig(config));
         });
     }
 
