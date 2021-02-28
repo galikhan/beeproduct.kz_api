@@ -1,4 +1,8 @@
 {
   "db.port":5433,
-  "db.name": "beeproduct"
+  "db.name": "beeproduct",
+
+  "telegram.url": "https://api.telegram.org",
+  "telegram.bot.token": "bot1492780157:AAHsXaK8G_hQOEfPD2dHzo8ajiROmo0pfHM"
+
 }

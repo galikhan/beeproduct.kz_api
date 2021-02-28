@@ -24,7 +24,7 @@ public class TelegramClientVerticle extends AbstractVerticle {
     public void start() throws Exception {
         super.start();
         this.vertxInstance = vertx;
-        telegramApiClient = new TelegramApiClient(vertx);
+        telegramApiClient = new TelegramApiClient(vertx, config());
         fetchUpdateOnce();
     }
 
@@ -56,9 +56,9 @@ public class TelegramClientVerticle extends AbstractVerticle {
                     fetchUpdateOnce();
 
                 }).onFailure(error -> {
-                    log.error("error", error);
-                    fetchUpdateOnce();
-                });
+            log.error("error", error);
+            fetchUpdateOnce();
+        });
     }
 
     private void increaseOffset() {
@@ -67,7 +67,7 @@ public class TelegramClientVerticle extends AbstractVerticle {
 
     private void handleMessage(ResultDto result) {
 
-        if("subscribe".equals(result.message.text)) {
+        if ("subscribe".equals(result.message.text)) {
 
             TgUserDto user = new TgUserDto();
             user.chatId = result.message.chat.id;
@@ -78,7 +78,7 @@ public class TelegramClientVerticle extends AbstractVerticle {
             DbUtils.blocking(ctx -> {
                 TgUserDao tgUserDao = new TgUserDaoImpl(ctx);
                 TgUserDto savedUser = tgUserDao.findByChatId(user.chatId);
-                if(savedUser == null) {
+                if (savedUser == null) {
                     savedUser = tgUserDao.create(user);
                 }
                 return savedUser;

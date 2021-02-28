@@ -3,6 +3,7 @@ package kz.tgbot;
 
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.DeploymentOptions;
 import io.vertx.core.json.JsonObject;
 import kz.tgbot.utils.DbUtils;
 import kz.tgbot.utils.HttpUtils;
@@ -31,8 +32,8 @@ public class AppVerticle extends AbstractVerticle {
 
             init();
             DbUtils.init(config.getInteger("db.port"), config.getString("db.name"));
-            vertx.deployVerticle(APIVerticle.class.getName());
-            vertx.deployVerticle(TelegramClientVerticle.class.getName());
+            vertx.deployVerticle(APIVerticle.class.getName(), new DeploymentOptions().setConfig(config));
+            vertx.deployVerticle(TelegramClientVerticle.class.getName(), new DeploymentOptions().setConfig(config));
 
         });
 
